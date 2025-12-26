@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Màn hình đổi màu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+            touch-action: none;
+            position: relative;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                #ff0080 0%, 
+                #ff8c00 10%, 
+                #40e0d0 20%, 
+                #9b59b6 30%, 
+                #00ff87 40%,
+                #ff0080 50%,
+                #ff8c00 60%, 
+                #40e0d0 70%, 
+                #9b59b6 80%, 
+                #00ff87 90%,
+                #ff0080 100%
+            );
+            background-size: 400% 400%;
+            animation: gradientMove 4s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .border-left, .border-right {
+            position: absolute;
+            width: 40px;
+            height: 100%;
+            top: 0;
+            z-index: 5;
+        }
+
+        .border-left {
+            left: 0;
+            background: linear-gradient(to bottom,
+                #ff0080 0%,
+                #ff8c00 14%,
+                #40e0d0 28%,
+                #9b59b6 42%,
+                #00ff87 56%,
+                #ff0080 70%,
+                #ff8c00 84%,
+                #40e0d0 100%
+            );
+            background-size: 100% 300%;
+            animation: borderFlowDown 3s linear infinite;
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .border-right {
+            right: 0;
+            background: linear-gradient(to top,
+                #ff0080 0%,
+                #ff8c00 14%,
+                #40e0d0 28%,
+                #9b59b6 42%,
+                #00ff87 56%,
+                #ff0080 70%,
+                #ff8c00 84%,
+                #40e0d0 100%
+            );
+            background-size: 100% 300%;
+            animation: borderFlowUp 3s linear infinite;
+            box-shadow: 0 0 30px rgba(64, 224, 208, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes borderFlowDown {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        @keyframes borderFlowUp {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 0, 128, 0.6);
+            opacity: 0.9;
+            pointer-events: none;
+            z-index: 10;
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 0, 128, 0.6); }
+            50% { text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 60px rgba(64, 224, 208, 0.8); }
+        }
+
+        .fast-mode .gradient-bg {
+            animation: gradientMoveFast 0.8s ease infinite;
+        }
+
+        .fast-mode .border-left {
+            animation: borderFlowDownFast 0.6s linear infinite;
+        }
+
+        .fast-mode .border-right {
+            animation: borderFlowUpFast 0.6s linear infinite;
+        }
+
+        @keyframes gradientMoveFast {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes borderFlowDownFast {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        @keyframes borderFlowUpFast {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            animation: rippleEffect 1s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 300px; height: 300px; opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="border-left"></div>
+    <div class="border-right"></div>
+    <div class="particles" id="particles"></div>
+    <div class="center-circle"></div>
+    <div class="message">🎨 Úp điện thoại xuống! 📱</div>
+
+    <script>
+        let isUpsideDown = false;
+
+        // Tạo particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Yêu cầu quyền truy cập cảm biến
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+                .then(response => {
+                    if (response === 'granted') {
+                        window.addEventListener('deviceorientation', handleOrientation);
+                    }
+                })
+                .catch(console.error);
+        } else {
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
+
+        function handleOrientation(event) {
+            const beta = event.beta;
+            const gamma = event.gamma;
+
+            if ((beta > 150 || beta < -150) && Math.abs(gamma) < 45) {
+                if (!isUpsideDown) {
+                    isUpsideDown = true;
+                    document.body.classList.add('fast-mode');
+                    document.querySelector('.message').textContent = '🌈 SIÊU TỐC ĐỘ! 🔥';
+                }
+            } else {
+                if (isUpsideDown) {
+                    isUpsideDown = false;
+                    document.body.classList.remove('fast-mode');
+                    document.querySelector('.message').textContent = '🎨 Úp điện thoại xuống! 📱';
+                }
+            }
+        }
+
+        // Hiệu ứng ripple khi chạm
+        document.addEventListener('touchstart', function(e) {
+            const touch = e.touches[0];
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = touch.clientX + 'px';
+            ripple.style.top = touch.clientY + 'px';
+            ripple.style.transform = 'translate(-50%, -50%)';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 1000);
+        });
+
+        // Chặn zoom
+        document.addEventListener('touchmove', function(e) {
+            if (e.scale !== 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
